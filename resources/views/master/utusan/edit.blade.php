@@ -1,0 +1,48 @@
+<x-app-layout>
+    @section('title', 'Edit Utusan')
+
+    <x-slot name="header">
+        <div class="flex items-center text-sm text-slate-500">
+            <a href="{{ route('dashboard') }}" class="hover:text-primary-700">Beranda</a>
+            <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <a href="{{ route('utusan.index') }}" class="hover:text-primary-700">Utusan</a>
+            <svg class="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <span class="text-primary-700 font-medium">Edit</span>
+        </div>
+    </x-slot>
+
+    <div class="max-w-2xl mx-auto">
+        <div class="card">
+            <div class="px-6 py-4 border-b border-slate-200">
+                <h3 class="font-semibold text-slate-800">Form Edit Utusan</h3>
+            </div>
+            
+            <form action="{{ route('utusan.update', $utusan->id) }}" method="POST" class="p-6">
+                @csrf
+                @method('PUT')
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Nama Kategori Utusan <span class="text-red-500">*</span></label>
+                        <input type="text" name="name" value="{{ old('name', $utusan->name) }}" class="form-input" required>
+                        @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Status <span class="text-red-500">*</span></label>
+                        <select name="status" class="form-input" required>
+                            <option value="ACTIVE" {{ old('status', $utusan->status->value) == 'ACTIVE' ? 'selected' : '' }}>Aktif</option>
+                            <option value="INACTIVE" {{ old('status', $utusan->status->value) == 'INACTIVE' ? 'selected' : '' }}>Tidak Aktif</option>
+                        </select>
+                        @error('status') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-end gap-3">
+                    <a href="{{ route('utusan.index') }}" class="btn-secondary">Batal</a>
+                    <button type="submit" class="btn-primary">Update Utusan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</x-app-layout>
